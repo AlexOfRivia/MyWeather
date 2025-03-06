@@ -11,9 +11,12 @@ public class App extends Application
     @Override
     public void start(Stage primaryStage) throws IOException 
     {
-        Parent root = FXMLLoader.load(getClass().getResource("myweatherui.fxml"));
-        primaryStage.setTitle("MyWeather");
-        primaryStage.setScene(new Scene(root));
+        Parent root = FXMLLoader.load(getClass().getResource("myweatherui.fxml")); //Load the FXML file
+        Scene scene = new Scene(root); //Attach the scene to the stage
+        scene.getStylesheets().add(getClass().getResource("darkTheme.css").toExternalForm()); //Get css style
+        root.setOnMouseClicked(event -> root.requestFocus()); //Set focus to the root
+        primaryStage.setTitle("MyWeather"); //Change window title
+        primaryStage.setScene(scene); //Set the scene to the stage
         primaryStage.show();
     }
 

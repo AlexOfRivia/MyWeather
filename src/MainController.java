@@ -5,8 +5,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.fxml.Initializable;
+import java.net.URL; 
+import java.util.ResourceBundle;
 
-public class MainController {
+
+public class MainController implements Initializable
+{
 
     @FXML
     private Label cityLabel; //Label with the searched city name
@@ -30,10 +35,17 @@ public class MainController {
         this.mainWindow = mainWindow;
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) 
+    {
+        cityTextField.setFocusTraversable(false); //setting text field to unfocused when the window is opened
+        searchButton.setFocusTraversable(false); //setting button to unfocused when the window is opened
+    }
+
     @FXML
     void searchCity(ActionEvent event) 
     {
-
+        
     }
 
 }
