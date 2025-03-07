@@ -5,6 +5,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/*TODO
+ -Add app icon
+ - Initialize weather API
+ - Add basic functionality
+ - Think about scrollable area for showing more specific weather info
+ */
+
 public class App extends Application
 {
     @Override
