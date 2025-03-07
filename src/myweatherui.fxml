@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="417.0" prefWidth="685.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
    <children>
-      <Label fx:id="cityLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="273.0" layoutY="47.0" prefHeight="18.0" prefWidth="138.0" text="City" textAlignment="CENTER" textFill="#cccccc">
+      <Label fx:id="cityLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="273.0" layoutY="47.0" prefHeight="18.0" prefWidth="138.0" text="City" textAlignment="CENTER">
          <font>
             <Font name="Arial" size="35.0" />
          </font>
