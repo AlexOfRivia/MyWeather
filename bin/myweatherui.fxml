@@ -7,16 +7,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="492.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="511.0" prefWidth="852.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
    <children>
-      <Label fx:id="cityLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="297.0" layoutY="43.0" prefHeight="84.0" prefWidth="248.0" text="City" textAlignment="CENTER">
+      <Label fx:id="cityLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="28.0" layoutY="41.0" prefHeight="124.0" prefWidth="808.0" textAlignment="CENTER">
          <font>
-            <Font name="Arial" size="35.0" />
+            <Font name="Arial" size="42.0" />
          </font>
       </Label>
       <TextField fx:id="cityTextField" layoutX="203.0" layoutY="14.0" prefHeight="27.0" prefWidth="431.0" promptText="Search City" />
-      <ImageView fx:id="conditionsImage" fitHeight="189.0" fitWidth="196.0" layoutX="323.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="temperatureLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="380.0" layoutY="111.0" prefHeight="69.0" prefWidth="81.0" style="" text="temp" textAlignment="CENTER">
+      <ImageView fx:id="conditionsImage" fitHeight="189.0" fitWidth="196.0" layoutX="334.0" layoutY="201.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="temperatureLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="363.0" layoutY="103.0" prefHeight="98.0" prefWidth="138.0" style="" textAlignment="CENTER">
          <font>
             <Font name="Arial" size="25.0" />
          </font>
@@ -26,5 +26,40 @@
             <Font size="15.0" />
          </font>
       </Button>
+      <Label fx:id="pressureLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="53.0" layoutY="398.0" prefHeight="98.0" prefWidth="206.0" style="" textAlignment="CENTER">
+         <font>
+            <Font name="Arial" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="windLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="302.0" layoutY="398.0" prefHeight="98.0" prefWidth="246.0" style="" textAlignment="CENTER">
+         <font>
+            <Font name="Arial" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="conditionsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="329.0" layoutY="165.0" prefHeight="41.0" prefWidth="206.0" style="" textAlignment="CENTER">
+         <font>
+            <Font name="Arial" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="pressureText" alignment="CENTER" contentDisplay="CENTER" layoutX="53.0" layoutY="398.0" prefHeight="41.0" prefWidth="206.0" style="" text="Pressure" textAlignment="CENTER" visible="false">
+         <font>
+            <Font name="Arial" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="windText" alignment="CENTER" contentDisplay="CENTER" layoutX="322.0" layoutY="398.0" prefHeight="41.0" prefWidth="206.0" style="" text="Wind" textAlignment="CENTER" visible="false">
+         <font>
+            <Font name="Arial" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="feelsLikeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="548.0" layoutY="398.0" prefHeight="98.0" prefWidth="246.0" style="" textAlignment="CENTER">
+         <font>
+            <Font name="Arial" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="feelsLikeText" alignment="CENTER" contentDisplay="CENTER" layoutX="568.0" layoutY="398.0" prefHeight="41.0" prefWidth="206.0" style="" text="Feels Like" textAlignment="CENTER" visible="false">
+         <font>
+            <Font name="Arial" size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

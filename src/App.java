@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 
 /*TODO
  -Add app icon
- - Add basic functionality
  - Think about scrollable area for showing more specific weather info
  */
 

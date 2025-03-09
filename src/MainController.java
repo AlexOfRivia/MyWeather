@@ -33,6 +33,29 @@ public class MainController implements Initializable
     @FXML
     private Label temperatureLabel; //Label with the current temperature
 
+    @FXML
+    private Label pressureLabel; //Label with current pressure
+
+    @FXML
+    private Label windLabel; //Label with wind speed
+
+    @FXML
+    private Label feelsLikeLabel; //Label with feels like info
+
+    @FXML
+    private Label conditionsLabel; //Label with conditions info
+
+
+    //these three objects are for cosmetics
+    @FXML
+    private Label pressureText;
+
+    @FXML
+    private Label windText;
+
+    @FXML
+    private Label feelsLikeText;
+
     private Stage mainWindow; //Primary stage
 
     private static final String API_KEY = System.getenv("OPENWEATHER_API_KEY"); //API key
@@ -49,20 +72,48 @@ public class MainController implements Initializable
     public void initialize(URL location, ResourceBundle resources) 
     {
         cityTextField.setFocusTraversable(false); //setting text field to unfocused when the window is opened
-        searchButton.setFocusTraversable(false); //setting button to unfocused when the window is opened
+        searchButton.setFocusTraversable(false); //setting button to unfocused when the window is opened   
     }
 
     //Searching the city upon button press
     @FXML
     void searchCity(ActionEvent event) 
     {
-        
+        String city = cityTextField.getText(); //Getting the text from the text field
+        if(city!=null && !city.isEmpty()) //Checking if the city isn't null
+        {
+            fetchWeatherData(city); //Fetching the data for the searched city
+        }
     }
 
     //Updating the UI
     private void updateUI(JSONObject json)
     {
+        String cityString = json.getString("name"); //Getting the city name from JSON object
+       
+        //Getting the temperature and converting from Kelvin to Celcius
+        double temperature = json.getJSONObject("main").getDouble("temp") - 273.15;
+       
+        //Getting the feels like info and converting to celcius
+        double feelsLike = json.getJSONObject("main").getDouble("feels_like") - 273.15;
+        
+        //Getting the wind speed
+        double windSpeed = json.getJSONObject("wind").getDouble("speed");
 
+        //Getting the current pressure
+        int pressure = json.getJSONObject("main").getInt("pressure");
+
+        //Getting the conditions description
+        String conditionsString = json.getJSONArray("weather").getJSONObject(0).getString("description");
+
+        //Setting the cosmetic text visible
+        this.feelsLikeText.setVisible(true);
+        this.windText.setVisible(true);
+        this.pressureText.setVisible(true);
+        
+        this.cityLabel.setText(cityString);
+        this.conditionsLabel.setText(conditionsString);
+        this.temperatureLabel.setText(String.format("%.2f °C", temperature));
     }
 
     //Fetching the weather data using API
@@ -72,6 +123,7 @@ public class MainController implements Initializable
         
         try {
             //Creating a URL object from the URL string
+            @SuppressWarnings("deprecation")
             URL url = new URL(urlString);
             
             //Opening an HTTP connection to the URL
