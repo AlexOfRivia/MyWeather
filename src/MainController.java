@@ -45,8 +45,10 @@ public class MainController implements Initializable
     @FXML
     private Label conditionsLabel; //Label with conditions info
 
+    @FXML
+    private Label chanceOfRainLabel;
 
-    //these three objects are for cosmetics
+    //these five objects are for cosmetics
     @FXML
     private Label pressureText;
 
@@ -55,6 +57,9 @@ public class MainController implements Initializable
 
     @FXML
     private Label feelsLikeText;
+
+    @FXML
+    private Label chanceOfRainText;
 
     private Stage mainWindow; //Primary stage
 
@@ -111,9 +116,24 @@ public class MainController implements Initializable
         this.windText.setVisible(true);
         this.pressureText.setVisible(true);
         
+        //City name
         this.cityLabel.setText(cityString);
+
+        //Conditions
+
         this.conditionsLabel.setText(conditionsString);
+
+        //Temperature
         this.temperatureLabel.setText(String.format("%.2f °C", temperature));
+
+        //Pressure
+        this.pressureLabel.setText(String.format("%d hPa", pressure));
+
+        //Wind speed
+        this.windLabel.setText(String.format("%.2f m/s",windSpeed));
+
+        //Feels like
+        this.feelsLikeLabel.setText(String.format("%.2f °C", feelsLike));
     }
 
     //Fetching the weather data using API
