@@ -6,11 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/*TODO
- -Add app icon
- - Think about scrollable area for showing more specific weather info
- */
-
 public class App extends Application
 {
     @Override
