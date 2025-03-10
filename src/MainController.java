@@ -51,9 +51,14 @@ public class MainController implements Initializable
 
     @FXML
     private Label humidityLabel; //Label with humidity info
+    
+    @FXML
+    private Label visibilityLabel;
 
     @FXML
     private HBox forecastContainer; //Container for 7 day forecast
+
+
 
     //these five objects are for cosmetics
     @FXML
@@ -67,6 +72,9 @@ public class MainController implements Initializable
 
     @FXML
     private Label humidityText;
+
+    @FXML
+    private Label visibilityText;
 
     private Stage mainWindow; //Primary stage
 
@@ -123,6 +131,10 @@ public class MainController implements Initializable
 
         //Code for the conditions icon
         String iconCode = json.getJSONArray("weather").getJSONObject(0).getString("icon");
+
+        //Getting the visibility info
+        int visibilityInt = json.getInt("visibility")/1000;
+        
        
         //conditions icon URL
         String iconURL = "http://openweathermap.org/img/wn/" + iconCode + "@4x.png";
@@ -132,6 +144,7 @@ public class MainController implements Initializable
         this.windText.setVisible(true);
         this.pressureText.setVisible(true);
         this.humidityText.setVisible(true);
+        this.visibilityText.setVisible(true);
         
         //City name
         this.cityLabel.setText(cityString);
@@ -153,6 +166,9 @@ public class MainController implements Initializable
 
         //Humidity
         this.humidityLabel.setText(String.format("%d%%",humidityInt));
+
+        //Visibility
+        this.visibilityLabel.setText(String.format("%d km",visibilityInt));
 
         this.conditionsImage.setImage(new Image(iconURL));
     }

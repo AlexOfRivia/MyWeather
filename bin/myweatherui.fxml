@@ -52,12 +52,12 @@
             <Font name="Arial" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="feelsLikeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="412.0" layoutY="415.0" prefHeight="98.0" prefWidth="196.0" style="" textAlignment="CENTER">
+      <Label fx:id="feelsLikeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="395.0" layoutY="415.0" prefHeight="98.0" prefWidth="196.0" style="" textAlignment="CENTER">
          <font>
             <Font name="Arial" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="feelsLikeText" alignment="CENTER" contentDisplay="CENTER" layoutX="412.0" layoutY="394.0" prefHeight="41.0" prefWidth="206.0" style="" text="Feels Like" textAlignment="CENTER" visible="false">
+      <Label fx:id="feelsLikeText" alignment="CENTER" contentDisplay="CENTER" layoutX="389.0" layoutY="394.0" prefHeight="41.0" prefWidth="206.0" style="" text="Feels Like" textAlignment="CENTER" visible="false">
          <font>
             <Font name="Arial" size="20.0" />
          </font>
@@ -73,5 +73,15 @@
          </font>
       </Label>
       <HBox fx:id="forecastContainer" layoutX="3.0" layoutY="521.0" prefHeight="100.0" prefWidth="979.0" />
+      <Label fx:id="visibilityText" alignment="CENTER" contentDisplay="CENTER" layoutX="772.0" layoutY="394.0" prefHeight="41.0" prefWidth="206.0" style="" text="Visibility" textAlignment="CENTER" visible="false">
+         <font>
+            <Font name="Arial" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="visibilityLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="777.0" layoutY="415.0" prefHeight="98.0" prefWidth="196.0" style="" textAlignment="CENTER">
+         <font>
+            <Font name="Arial" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
