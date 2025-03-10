@@ -1,13 +1,13 @@
 /* Dark Theme */
 .root{
-    -fx-background-color: #2D2D30;
-    background-color: #2D2D30;
+    -fx-background-color: #3636d0;
+    background-color: #3636d0;
 }
 
 
 /*label*/
 .label{
-    -fx-text-fill: #AFB1B3;
+    -fx-text-fill: #d1d3d4;
 }
 
 /* ChoiceBox */

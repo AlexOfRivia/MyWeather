@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.fxml.Initializable;
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class MainController implements Initializable
     private Label conditionsLabel; //Label with conditions info
 
     @FXML
-    private Label chanceOfRainLabel;
+    private Label humidityLabel; //Label with humidity info
 
     //these five objects are for cosmetics
     @FXML
@@ -59,7 +60,7 @@ public class MainController implements Initializable
     private Label feelsLikeText;
 
     @FXML
-    private Label chanceOfRainText;
+    private Label humidityText;
 
     private Stage mainWindow; //Primary stage
 
@@ -108,19 +109,29 @@ public class MainController implements Initializable
         //Getting the current pressure
         int pressure = json.getJSONObject("main").getInt("pressure");
 
+        //Getting the humidity
+        int humidityInt = json.getJSONObject("main").getInt("humidity");
+
         //Getting the conditions description
         String conditionsString = json.getJSONArray("weather").getJSONObject(0).getString("description");
+
+        //Code for the conditions icon
+        String iconCode = json.getJSONArray("weather").getJSONObject(0).getString("icon");
+       
+        //conditions icon URL
+        String iconURL = "http://openweathermap.org/img/wn/" + iconCode + "@4x.png";
+                        
 
         //Setting the cosmetic text visible
         this.feelsLikeText.setVisible(true);
         this.windText.setVisible(true);
         this.pressureText.setVisible(true);
+        this.humidityText.setVisible(true);
         
         //City name
         this.cityLabel.setText(cityString);
 
         //Conditions
-
         this.conditionsLabel.setText(conditionsString);
 
         //Temperature
@@ -134,6 +145,11 @@ public class MainController implements Initializable
 
         //Feels like
         this.feelsLikeLabel.setText(String.format("%.2f °C", feelsLike));
+
+        //Humidity
+        this.humidityLabel.setText(String.format("%d%%",humidityInt));
+
+        this.conditionsImage.setImage(new Image(iconURL));
     }
 
     //Fetching the weather data using API
