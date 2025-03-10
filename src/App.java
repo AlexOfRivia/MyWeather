@@ -2,6 +2,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -17,6 +18,10 @@ public class App extends Application
     {
         Parent root = FXMLLoader.load(getClass().getResource("myweatherui.fxml")); //Load the FXML file
         Scene scene = new Scene(root); //Attach the scene to the stage
+
+        //Setting the app icon
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("appIcon.png")));
+
         scene.getStylesheets().add(getClass().getResource("darkTheme.css").toExternalForm()); //Get css style
         root.setOnMouseClicked(event -> root.requestFocus()); //Set focus to the root
         primaryStage.setTitle("MyWeather"); //Change window title
