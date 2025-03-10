@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.fxml.Initializable;
 import java.io.IOException;
@@ -14,6 +15,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import org.json.JSONObject;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 
 public class MainController implements Initializable
@@ -48,6 +51,9 @@ public class MainController implements Initializable
 
     @FXML
     private Label humidityLabel; //Label with humidity info
+
+    @FXML
+    private HBox forecastContainer; //Container for 7 day forecast
 
     //these five objects are for cosmetics
     @FXML
@@ -121,7 +127,6 @@ public class MainController implements Initializable
         //conditions icon URL
         String iconURL = "http://openweathermap.org/img/wn/" + iconCode + "@4x.png";
                         
-
         //Setting the cosmetic text visible
         this.feelsLikeText.setVisible(true);
         this.windText.setVisible(true);
@@ -153,7 +158,8 @@ public class MainController implements Initializable
     }
 
     //Fetching the weather data using API
-    private void fetchWeatherData(String city) {
+    private void fetchWeatherData(String city) 
+    {
         //Constructing the OpenWeather API URL with the city and API key
         String urlString = API_URL + "?q=" + city + "&appid=" + API_KEY;
         
@@ -176,8 +182,12 @@ public class MainController implements Initializable
             
             //Checking wether the response code is not 200 (OK)
             if (responseCode != 200) {
-                //Throwing an exception if the response code is not 200
-                throw new RuntimeException("HttpResponseCode: " + responseCode);
+                //Throwing an exception if the response code is not ok
+                Alert cityAlert = new Alert(AlertType.ERROR); //Creating new alert
+                cityAlert.setTitle("Error"); //Setting the alert message
+                cityAlert.setContentText("City Not Found - Try Again");
+                cityAlert.showAndWait();
+
             } else {
                 //Creating a StringBuilder to store the response
                 StringBuilder inline = new StringBuilder();
