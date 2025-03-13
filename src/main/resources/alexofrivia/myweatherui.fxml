@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="621.0" prefWidth="979.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="621.0" prefWidth="979.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alexofrivia.MainController">
    <children>
       <Label fx:id="cityLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="46.0" prefHeight="82.0" prefWidth="808.0" textAlignment="CENTER">
          <font>
@@ -72,7 +72,6 @@
             <Font name="Arial" size="18.0" />
          </font>
       </Label>
-      <HBox fx:id="forecastContainer" layoutX="3.0" layoutY="521.0" prefHeight="100.0" prefWidth="979.0" />
       <Label fx:id="visibilityText" alignment="CENTER" contentDisplay="CENTER" layoutX="772.0" layoutY="394.0" prefHeight="41.0" prefWidth="206.0" style="" text="Visibility" textAlignment="CENTER" visible="false">
          <font>
             <Font name="Arial" size="20.0" />

@@ -1,3 +1,4 @@
+package alexofrivia;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -5,7 +6,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.fxml.Initializable;
 import java.io.IOException;
@@ -17,6 +17,7 @@ import java.util.Scanner;
 import org.json.JSONObject;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.concurrent.Task;//Import Task for background operations
 
 
 public class MainController implements Initializable
@@ -53,12 +54,7 @@ public class MainController implements Initializable
     private Label humidityLabel; //Label with humidity info
     
     @FXML
-    private Label visibilityLabel;
-
-    @FXML
-    private HBox forecastContainer; //Container for 7 day forecast
-
-
+    private Label visibilityLabel; //Label with visibility info
 
     //these five objects are for cosmetics
     @FXML
@@ -76,7 +72,7 @@ public class MainController implements Initializable
     @FXML
     private Label visibilityText;
 
-    private Stage mainWindow; //Primary stage
+    private Stage mainWindow;
 
     private static final String API_KEY = System.getenv("OPENWEATHER_API_KEY"); //API key
     private static final String API_URL = System.getenv("OPENWEATHER_API_URL"); //The API URL
@@ -133,7 +129,7 @@ public class MainController implements Initializable
         String iconCode = json.getJSONArray("weather").getJSONObject(0).getString("icon");
 
         //Getting the visibility info
-        int visibilityInt = json.getInt("visibility")/1000;
+        float visibilityfloat = (float) json.getInt("visibility") /1000;
         
        
         //conditions icon URL
@@ -168,69 +164,50 @@ public class MainController implements Initializable
         this.humidityLabel.setText(String.format("%d%%",humidityInt));
 
         //Visibility
-        this.visibilityLabel.setText(String.format("%d km",visibilityInt));
+        this.visibilityLabel.setText(String.format("%.2f km",visibilityfloat));
 
         this.conditionsImage.setImage(new Image(iconURL));
     }
 
     //Fetching the weather data using API
-    private void fetchWeatherData(String city) 
-    {
-        //Constructing the OpenWeather API URL with the city and API key
-        String urlString = API_URL + "?q=" + city + "&appid=" + API_KEY;
-        
-        try {
-            //Creating a URL object from the URL string
-            @SuppressWarnings("deprecation")
-            URL url = new URL(urlString);
-            
-            //Opening an HTTP connection to the URL
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            
-            //Seting the request method to GET
-            connection.setRequestMethod("GET");
-            
-            //Connecting to the OpenWeather API URL
-            connection.connect();
-            
-            //Geting the response code from the connection
-            int responseCode = connection.getResponseCode();
-            
-            //Checking wether the response code is not 200 (OK)
-            if (responseCode != 200) {
-                //Throwing an exception if the response code is not ok
-                Alert cityAlert = new Alert(AlertType.ERROR); //Creating new alert
-                cityAlert.setTitle("Error"); //Setting the alert message
-                cityAlert.setContentText("City Not Found - Try Again");
-                cityAlert.showAndWait();
-
-            } else {
-                //Creating a StringBuilder to store the response
+    private void fetchWeatherData(String city) {
+        Task<JSONObject> task = new Task<JSONObject>() {//Create a background task
+            @Override
+            protected JSONObject call() throws Exception {//Code to run in the background
+                String urlString = API_URL + "?q=" + city + "&appid=" + API_KEY;
+                URL url = new URL(urlString);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.connect();
+                int responseCode = connection.getResponseCode();
+                if (responseCode != 200) {
+                    throw new IOException("City Not Found");
+                }
                 StringBuilder inline = new StringBuilder();
-                
-                //Creating a Scanner to read the response from the URL
                 Scanner scanner = new Scanner(url.openStream());
-                
-                //Readingthe response line by line and append it to the StringBuilder
                 while (scanner.hasNext()) {
                     inline.append(scanner.nextLine());
                 }
-                
-                scanner.close(); //Closing the scanner
-                
-                //Converting the response to a JSON object
-                JSONObject json = new JSONObject(inline.toString());
-                
-                //Updating the UI with the JSON data
-                updateUI(json);
+                scanner.close();
+                return new JSONObject(inline.toString());//Return the JSON object
             }
-        } catch (MalformedURLException e) {
-            //Handling the MalformedURLException
-            e.printStackTrace();
-        } catch (IOException e) {
-            //Handling the IOException
-            e.printStackTrace();
-        }
-    }
 
+            @Override
+            protected void succeeded() {//Called when the task succeeds
+                super.succeeded();
+                updateUI(getValue());//Update the UI with the fetched data
+            }
+
+            @Override
+            protected void failed() {//Called when the task fails
+                super.failed();
+                Alert cityAlert = new Alert(AlertType.ERROR);
+                cityAlert.setTitle("Error");
+                cityAlert.setContentText("City Not Found - Try Again");
+                cityAlert.showAndWait();//Show an error alert
+            }
+        };
+
+        new Thread(task).start();//Start the task in a new thread
+    }
 }
