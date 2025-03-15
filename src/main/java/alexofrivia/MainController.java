@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import javafx.fxml.Initializable;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -129,7 +128,7 @@ public class MainController implements Initializable
         String iconCode = json.getJSONArray("weather").getJSONObject(0).getString("icon");
 
         //Getting the visibility info
-        float visibilityfloat = (float) json.getInt("visibility") /1000;
+        int visibilityint =  json.getInt("visibility");
         
        
         //conditions icon URL
@@ -164,50 +163,87 @@ public class MainController implements Initializable
         this.humidityLabel.setText(String.format("%d%%",humidityInt));
 
         //Visibility
-        this.visibilityLabel.setText(String.format("%.2f km",visibilityfloat));
+        this.visibilityLabel.setText(String.format("%d m",visibilityint));
 
         this.conditionsImage.setImage(new Image(iconURL));
     }
 
     //Fetching the weather data using API
-    private void fetchWeatherData(String city) {
-        Task<JSONObject> task = new Task<JSONObject>() {//Create a background task
+    private void fetchWeatherData(String city){
+        //Creating a background task to fetch weather data
+        Task<JSONObject> task=new Task<JSONObject>(){
             @Override
-            protected JSONObject call() throws Exception {//Code to run in the background
-                String urlString = API_URL + "?q=" + city + "&appid=" + API_KEY;
-                URL url = new URL(urlString);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            protected JSONObject call() throws Exception{
+                //Constructing the full URL for the OpenWeatherMap API, including city name and API key
+                String urlString=API_URL+"?q="+city+"&appid="+API_KEY;
+
+                //Creating a URL object from the constructed URL string
+                URL url=new URL(urlString);
+
+                //Opening an HTTP connection to the URL
+                HttpURLConnection connection=(HttpURLConnection)url.openConnection();
+
+                //Setting the request method to GET, as we are retrieving data
                 connection.setRequestMethod("GET");
+
+                //Establishing the connection to the API
                 connection.connect();
-                int responseCode = connection.getResponseCode();
-                if (responseCode != 200) {
+
+                //Getting the HTTP response code
+                int responseCode=connection.getResponseCode();
+
+                //Checking if the response code is not 200 (OK)
+                if(responseCode!=200){
+                    //If the response code is not 200, throw an IOException indicating that the city was not found
                     throw new IOException("City Not Found");
                 }
-                StringBuilder inline = new StringBuilder();
-                Scanner scanner = new Scanner(url.openStream());
-                while (scanner.hasNext()) {
+
+                //Creating a StringBuilder to store the response from the API
+                StringBuilder inline=new StringBuilder();
+
+                //Creating a Scanner to read the data stream from the API
+                Scanner scanner=new Scanner(url.openStream());
+
+                //Reading the response line by line and append it to the StringBuilder
+                while(scanner.hasNext()){
                     inline.append(scanner.nextLine());
                 }
+
+                //Closing the Scanner to release resources
                 scanner.close();
-                return new JSONObject(inline.toString());//Return the JSON object
+
+                //Converting the response to a JSONObject and return it
+                return new JSONObject(inline.toString());
             }
 
             @Override
-            protected void succeeded() {//Called when the task succeeds
+            protected void succeeded(){
+                //This method is called when the task completes successfully
                 super.succeeded();
-                updateUI(getValue());//Update the UI with the fetched data
+
+                //Getting the JSONObject from the task's result
+                JSONObject result=getValue();
+
+                //Updating the UI with the data from the JSONObject
+                updateUI(result);
             }
 
             @Override
-            protected void failed() {//Called when the task fails
+            protected void failed(){
+                //This method is called when the task fails
                 super.failed();
-                Alert cityAlert = new Alert(AlertType.ERROR);
+
+                //Creating an error dialog
+                Alert cityAlert=new Alert(AlertType.ERROR);
                 cityAlert.setTitle("Error");
                 cityAlert.setContentText("City Not Found - Try Again");
-                cityAlert.showAndWait();//Show an error alert
+
+                //Showing the error dialog
+                cityAlert.showAndWait();
             }
         };
 
-        new Thread(task).start();//Start the task in a new thread
+        //Starting the task in a new thread to avoid blocking the application's main thread
+        new Thread(task).start();
     }
 }
