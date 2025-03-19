@@ -55,7 +55,7 @@ public class MainController implements Initializable
     @FXML
     private Label visibilityLabel; //Label with visibility info
 
-    //these five objects are for cosmetics
+    //these fw objects are for cosmetics
     @FXML
     private Label pressureText;
 
@@ -70,6 +70,12 @@ public class MainController implements Initializable
 
     @FXML
     private Label visibilityText;
+
+    @FXML
+    private Label appName;
+    
+    @FXML
+    private ImageView appIcon;
 
     private Stage mainWindow;
 

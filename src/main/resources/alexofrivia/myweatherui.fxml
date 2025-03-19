@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="621.0" prefWidth="979.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alexofrivia.MainController">
    <children>
@@ -79,6 +77,16 @@
       <Label fx:id="visibilityLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="777.0" layoutY="415.0" prefHeight="98.0" prefWidth="196.0" style="" textAlignment="CENTER">
          <font>
             <Font name="Arial" size="18.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="appIcon" fitHeight="60.0" fitWidth="54.0" layoutX="14.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@appIcon.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="appName" layoutX="68.0" prefHeight="51.0" prefWidth="174.0" text="MyWeather" textFill="WHITE">
+         <font>
+            <Font name="Bell MT Bold" size="32.0" />
          </font>
       </Label>
    </children>
