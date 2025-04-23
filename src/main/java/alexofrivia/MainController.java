@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.fxml.Initializable;
 import java.io.IOException;
@@ -54,6 +55,9 @@ public class MainController implements Initializable
     
     @FXML
     private Label visibilityLabel; //Label with visibility info
+
+    @FXML
+    private HBox forecastContainer; //HBox to hold the 8 day weather forecast
 
     //these fw objects are for cosmetics
     @FXML
@@ -174,12 +178,21 @@ public class MainController implements Initializable
         this.conditionsImage.setImage(new Image(iconURL));
     }
 
+    //Updating the 8 day weather forecast
+    private void updateForecast(JSONObject json)
+    {
+
+    }
+
     //Fetching the weather data using API
-    private void fetchWeatherData(String city){
+    private void fetchWeatherData(String city)
+    {
         //Creating a background task to fetch weather data
-        Task<JSONObject> task=new Task<JSONObject>(){
+        Task<JSONObject> task = new Task<JSONObject>()
+        {
             @Override
-            protected JSONObject call() throws Exception{
+            protected JSONObject call() throws Exception
+            {
                 //Constructing the full URL for the OpenWeatherMap API, including city name and API key
                 String urlString=API_URL+"?q="+city+"&appid="+API_KEY;
 
@@ -199,7 +212,8 @@ public class MainController implements Initializable
                 int responseCode=connection.getResponseCode();
 
                 //Checking if the response code is not 200 (OK)
-                if(responseCode!=200){
+                if(responseCode!=200)
+                {
                     //If the response code is not 200, throw an IOException indicating that the city was not found
                     throw new IOException("City Not Found");
                 }
@@ -211,7 +225,8 @@ public class MainController implements Initializable
                 Scanner scanner=new Scanner(url.openStream());
 
                 //Reading the response line by line and append it to the StringBuilder
-                while(scanner.hasNext()){
+                while(scanner.hasNext())
+                {
                     inline.append(scanner.nextLine());
                 }
 
@@ -223,7 +238,8 @@ public class MainController implements Initializable
             }
 
             @Override
-            protected void succeeded(){
+            protected void succeeded()
+            {
                 //This method is called when the task completes successfully
                 super.succeeded();
 
@@ -235,7 +251,8 @@ public class MainController implements Initializable
             }
 
             @Override
-            protected void failed(){
+            protected void failed()
+            {
                 //This method is called when the task fails
                 super.failed();
 
@@ -251,5 +268,87 @@ public class MainController implements Initializable
 
         //Starting the task in a new thread to avoid blocking the application's main thread
         new Thread(task).start();
+    }
+
+    private void fetchForecastData(String city)
+    {
+        Task<JSONObject> forecastTask = new Task<JSONObject>() {
+            @Override
+            protected JSONObject call() throws Exception {
+                //Constructing the full URL for the OpenWeatherMap API, including city name and API key
+                String urlString = API_URL + "?q=" + city + "&appid=" + API_KEY;
+
+                //Creating a URL object from the constructed URL string
+                URL url = new URL(urlString);
+
+                //Opening an HTTP connection to the URL
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                //Setting the request method to GET, as we are retrieving data
+                connection.setRequestMethod("GET");
+
+                //Establishing the connection to the API
+                connection.connect();
+
+                //Getting the HTTP response code
+                int responseCode = connection.getResponseCode();
+
+                //Checking if the response code is not 200 (OK)
+                if (responseCode != 200)
+                {
+                    //If the response code is not 200, throw an IOException indicating that the city was not found
+                    throw new IOException("City Not Found");
+                }
+
+                //Creating a StringBuilder to store the response from the API
+                StringBuilder inline = new StringBuilder();
+
+                //Creating a Scanner to read the data stream from the API
+                Scanner scanner = new Scanner(url.openStream());
+
+                //Reading the response line by line and append it to the StringBuilder
+                while (scanner.hasNext())
+                {
+                    inline.append(scanner.nextLine());
+                }
+
+                //Closing the Scanner to release resources
+                scanner.close();
+
+                //Converting the response to a JSONObject and return it
+                return new JSONObject(inline.toString());
+            }
+
+            @Override
+            protected void succeeded()
+            {
+                //This method is called when the task completes successfully
+                super.succeeded();
+
+                //Getting the JSONObject from the task's result
+                JSONObject result=getValue();
+
+                //Updating the UI with the data from the JSONObject
+                updateForecast(result);
+            }
+
+            @Override
+            protected void failed()
+            {
+                //This method is called when the task fails
+                super.failed();
+
+                //Creating an error dialog
+                Alert cityAlert=new Alert(AlertType.ERROR);
+                cityAlert.setTitle("Error");
+                cityAlert.setContentText("City Not Found - Try Again");
+
+                //Showing the error dialog
+                cityAlert.showAndWait();
+            }
+        };
+
+        //Starting the task in a new thread to avoid blocking the application's main thread
+        new Thread(forecastTask).start();
     }
 }
