@@ -10,10 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/*Future features
- - 8-day weather forecast
- */
-
 public class App extends Application
 {
     @Override

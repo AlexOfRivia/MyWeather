@@ -1,19 +1,26 @@
 package alexofrivia;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.fxml.Initializable;
+
+import java.io.Console;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
+
+import javafx.util.Pair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -108,6 +115,7 @@ public class MainController implements Initializable
         if(city!=null && !city.isEmpty()) //Checking if the city isn't null
         {
             fetchWeatherData(city); //Fetching the data for the searched city
+            fetchForecastData(city); //Fetching the data for 8-day forecast
         }
     }
 
@@ -116,10 +124,10 @@ public class MainController implements Initializable
     {
         String cityString = json.getString("name"); //Getting the city name from JSON object
        
-        //Getting the temperature and converting from Kelvin to Celcius
+        //Getting the temperature and converting from Kelvin to Celsius
         double temperature = json.getJSONObject("main").getDouble("temp") - 273.15;
        
-        //Getting the feels like info and converting to celcius
+        //Getting the feels like info and converting to Celsius
         double feelsLike = json.getJSONObject("main").getDouble("feels_like") - 273.15;
         
         //Getting the wind speed
@@ -150,6 +158,7 @@ public class MainController implements Initializable
         this.pressureText.setVisible(true);
         this.humidityText.setVisible(true);
         this.visibilityText.setVisible(true);
+        this.forecastContainer.setVisible(true);
         
         //City name
         this.cityLabel.setText(cityString);
@@ -181,6 +190,67 @@ public class MainController implements Initializable
     //Updating the 8 day weather forecast
     private void updateForecast(JSONObject json)
     {
+
+        JSONArray dailyForecast = json.getJSONArray("daily");
+        javafx.application.Platform.runLater(() -> {
+            if (forecastContainer != null)
+            {
+                forecastContainer.getChildren().clear(); // Wyczyść poprzednie elementy
+                for(int i=0;i<Math.min(dailyForecast.length(),8);i++)
+                {
+                    JSONObject forecastDay = dailyForecast.getJSONObject(i); //Creating a singular day in the forecast
+
+                    VBox vbox = new VBox(); //Creating a new vertical box
+                    vbox.setStyle("-fx-background-color: #cccccc; -fx-background-radius: 10; -fx-pref-width: 350; -fx-pref-height: 150;");
+
+                    long timestamp = forecastDay.getLong("dt");
+                    java.util.Date date = new java.util.Date(timestamp * 1000);
+                    java.text.SimpleDateFormat dayFormat = new java.text.SimpleDateFormat("EEE"); //Day of the week
+                    String dayOfWeek = dayFormat.format(date);
+                    Label dayLabel = new Label(dayOfWeek); //Day of the day label
+                    dayLabel.setStyle("-fx-text-fill: black; -fx-alignment: center; -fx-font-size: 14px; -fx-font-weight: bold;"); //Setting style
+                    dayLabel.setMaxWidth(Double.MAX_VALUE);
+
+
+                    //Min and Max Temperature
+                    JSONObject temp = forecastDay.getJSONObject("temp");
+                    int minTemperature = (int)(temp.getDouble("min")-273.15);
+                    int maxTemperature = (int)(temp.getDouble("max")-273.15);
+
+                    //Min
+                    Label minTempLabel = new Label("L: " + minTemperature+"°"); //Minimum temperature label
+                    minTempLabel.setStyle("-fx-text-fill: black; -fx-alignment: center; -fx-font-size: 11px;"); //Setting style
+                    minTempLabel.setMaxWidth(Double.MAX_VALUE);
+
+                    Label maxTempLabel = new Label(" H: " + maxTemperature+"°"); //Maximum temperature label
+                    maxTempLabel.setStyle("-fx-text-fill: black; -fx-alignment: center; -fx-font-size: 11px;"); //Setting Style
+                    maxTempLabel.setMaxWidth(Double.MAX_VALUE);
+
+
+                    ImageView condImage = new ImageView(); //Conditions ImageView
+                    JSONObject weather = forecastDay.getJSONArray("weather").getJSONObject(0);
+                    String iconCode = weather.getString("icon");
+                    String imageUrl = "http://openweathermap.org/img/wn/" + iconCode + "@2x.png";
+                    Image image = new Image(imageUrl);
+                    condImage.setImage(image);
+                    condImage.setFitWidth(50);
+                    condImage.setFitHeight(50);
+
+                    HBox lowHighTemp = new HBox(minTempLabel,maxTempLabel);
+                    lowHighTemp.setAlignment(Pos.CENTER);
+                    lowHighTemp.setSpacing(2);
+
+                    //Adding everything to the forecast vbox
+                    vbox.getChildren().addAll(dayLabel, condImage, lowHighTemp);
+                    VBox.setVgrow(condImage, Priority.ALWAYS);
+                    vbox.setAlignment(Pos.TOP_CENTER); //Centering VBox elements
+
+                    //Adding the day to the forecast container
+                    forecastContainer.getChildren().add(vbox);
+                }
+            }
+        });
+
 
     }
 
@@ -270,13 +340,63 @@ public class MainController implements Initializable
         new Thread(task).start();
     }
 
+    //Getting city coordinates
+    private Pair<Double, Double> fetchCoordinates(String city) throws Exception
+    {
+        String urlString = "http://api.openweathermap.org/geo/1.0/direct" + "?q=" + city + "&limit=1&appid=" + API_KEY;
+        URL url = new URL(urlString);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.connect(); //Connecting
+        int responseCode = connection.getResponseCode();
+        if (responseCode != 200)
+        {
+            throw new IOException("City not found for geocoding.");
+        }
+        StringBuilder inline = new StringBuilder();
+        try (Scanner scanner = new Scanner(connection.getInputStream()))
+        {
+            while (scanner.hasNext())
+            {
+                inline.append(scanner.nextLine());
+            }
+        }
+        connection.disconnect();
+
+        JSONArray jsonArray = new JSONArray(inline.toString());
+        if (jsonArray.length() > 0)
+        {
+            JSONObject cityInfo = jsonArray.getJSONObject(0);
+            double lat = cityInfo.getDouble("lat");
+            double lon = cityInfo.getDouble("lon");
+            Console console = System.console();
+
+            console.printf("Lat: %.4f%n", lat);
+            console.printf("Lon: %.4f%n", lon);
+            return new Pair<>(lat, lon); //Returning longitude and lattitude
+        } else {
+            return null; //City not found
+        }
+    }
+
+    //Fetching weather forecast data
     private void fetchForecastData(String city)
     {
-        Task<JSONObject> forecastTask = new Task<JSONObject>() {
+        Task<JSONObject> forecastTask = new Task<JSONObject>()
+        {
             @Override
-            protected JSONObject call() throws Exception {
+            protected JSONObject call() throws Exception
+            {
+                Pair<Double, Double> coordinates = fetchCoordinates(city);
+                if (coordinates == null)
+                {
+                    throw new IOException("City not found.");
+                }
+                double latitude = coordinates.getKey();
+                double longitude = coordinates.getValue();
+
                 //Constructing the full URL for the OpenWeatherMap API, including city name and API key
-                String urlString = API_URL + "?q=" + city + "&appid=" + API_KEY;
+                String urlString = "http://api.openweathermap.org/data/3.0/onecall" + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY;
 
                 //Creating a URL object from the constructed URL string
                 URL url = new URL(urlString);
@@ -292,6 +412,7 @@ public class MainController implements Initializable
 
                 //Getting the HTTP response code
                 int responseCode = connection.getResponseCode();
+                System.console().printf(""+responseCode);
 
                 //Checking if the response code is not 200 (OK)
                 if (responseCode != 200)
@@ -328,7 +449,7 @@ public class MainController implements Initializable
                 //Getting the JSONObject from the task's result
                 JSONObject result=getValue();
 
-                //Updating the UI with the data from the JSONObject
+                //Updating the upcoming forecast with the data from the JSONObject
                 updateForecast(result);
             }
 
@@ -337,6 +458,9 @@ public class MainController implements Initializable
             {
                 //This method is called when the task fails
                 super.failed();
+
+                //Printing the stack trace of the exception
+                getException().printStackTrace();
 
                 //Creating an error dialog
                 Alert cityAlert=new Alert(AlertType.ERROR);

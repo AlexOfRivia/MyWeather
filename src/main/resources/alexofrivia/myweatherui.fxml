@@ -1,98 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="621.0" prefWidth="979.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alexofrivia.MainController">
-   <children>
-      <Label fx:id="cityLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="46.0" prefHeight="82.0" prefWidth="808.0" textAlignment="CENTER">
-         <font>
-            <Font name="Arial" size="35.0" />
-         </font>
-      </Label>
-      <TextField fx:id="cityTextField" layoutX="273.0" layoutY="14.0" prefHeight="27.0" prefWidth="431.0" promptText="Search City" />
-      <ImageView fx:id="conditionsImage" fitHeight="298.0" fitWidth="352.0" layoutX="339.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="temperatureLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="421.0" layoutY="87.0" prefHeight="98.0" prefWidth="138.0" style="" textAlignment="CENTER">
-         <font>
-            <Font name="Arial" size="30.0" />
-         </font>
-      </Label>
-      <Button fx:id="searchButton" layoutX="704.0" layoutY="12.0" minWidth="42.0" mnemonicParsing="false" onAction="#searchCity" opacity="0.83" prefHeight="27.0" prefWidth="54.0" style="-fx-background-radius: 10;" text="Ok" textAlignment="CENTER">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Button>
-      <Label fx:id="pressureLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="415.0" prefHeight="98.0" prefWidth="206.0" style="" textAlignment="CENTER">
-         <font>
-            <Font name="Arial" size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="windLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="211.0" layoutY="415.0" prefHeight="98.0" prefWidth="196.0" style="" textAlignment="CENTER">
-         <font>
-            <Font name="Arial" size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="conditionsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="387.0" layoutY="157.0" prefHeight="41.0" prefWidth="206.0" style="" textAlignment="CENTER">
-         <font>
-            <Font name="Arial" size="15.0" />
-         </font>
-      </Label>
-      <Label fx:id="pressureText" alignment="CENTER" contentDisplay="CENTER" layoutY="394.0" prefHeight="41.0" prefWidth="206.0" style="" text="Pressure" textAlignment="CENTER" visible="false">
-         <font>
-            <Font name="Arial" size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="windText" alignment="CENTER" contentDisplay="CENTER" layoutX="206.0" layoutY="394.0" prefHeight="42.0" prefWidth="206.0" style="" text="Wind" textAlignment="CENTER" visible="false">
-         <font>
-            <Font name="Arial" size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="feelsLikeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="395.0" layoutY="415.0" prefHeight="98.0" prefWidth="196.0" style="" textAlignment="CENTER">
-         <font>
-            <Font name="Arial" size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="feelsLikeText" alignment="CENTER" contentDisplay="CENTER" layoutX="389.0" layoutY="394.0" prefHeight="41.0" prefWidth="206.0" style="" text="Feels Like" textAlignment="CENTER" visible="false">
-         <font>
-            <Font name="Arial" size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="humidityText" alignment="CENTER" contentDisplay="CENTER" layoutX="576.0" layoutY="394.0" prefHeight="42.0" prefWidth="206.0" style="" text="Humidity" textAlignment="CENTER" visible="false">
-         <font>
-            <Font name="Arial" size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="humidityLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="581.0" layoutY="415.0" prefHeight="98.0" prefWidth="196.0" style="" textAlignment="CENTER">
-         <font>
-            <Font name="Arial" size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="visibilityText" alignment="CENTER" contentDisplay="CENTER" layoutX="772.0" layoutY="394.0" prefHeight="41.0" prefWidth="206.0" style="" text="Visibility" textAlignment="CENTER" visible="false">
-         <font>
-            <Font name="Arial" size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="visibilityLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="777.0" layoutY="415.0" prefHeight="98.0" prefWidth="196.0" style="" textAlignment="CENTER">
-         <font>
-            <Font name="Arial" size="18.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="appIcon" fitHeight="60.0" fitWidth="54.0" layoutX="14.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@appIcon.png" />
-         </image>
-      </ImageView>
-      <Label fx:id="appName" layoutX="68.0" prefHeight="51.0" prefWidth="174.0" text="MyWeather" textFill="WHITE">
-         <font>
-            <Font name="Bell MT Bold" size="32.0" />
-         </font>
-      </Label>
-      <HBox fx:id="forecastContainer" layoutX="5.0" layoutY="513.0" prefHeight="100.0" prefWidth="970.0" style="-fx-border-radius: 20; -fx-background-color: white;" />
-   </children>
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="621.0" prefWidth="979.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alexofrivia.MainController">
+   <top>
+      <HBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+         <children>
+            <ImageView fx:id="appIcon" fitHeight="60.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@appIcon.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="appName" text="MyWeather" textFill="BLACK">
+               <font>
+                  <Font name="Bell MT Bold" size="32.0" />
+               </font>
+            </Label>
+            <Pane HBox.hgrow="ALWAYS" />
+            <TextField fx:id="cityTextField" prefHeight="26.0" prefWidth="337.0" promptText="Search City" HBox.hgrow="SOMETIMES" />
+            <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchCity" opacity="0.83" style="-fx-background-radius: 10;" text="Ok" textAlignment="CENTER">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Label fx:id="cityLabel" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" VBox.vgrow="NEVER">
+               <font>
+                  <Font name="Arial" size="35.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" spacing="20.0" VBox.vgrow="NEVER">
+               <children>
+                  <ImageView fx:id="conditionsImage" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER" />
+                  <VBox alignment="CENTER" spacing="5.0" HBox.hgrow="NEVER">
+                     <children>
+                        <Label fx:id="temperatureLabel" alignment="CENTER" contentDisplay="CENTER" style="" textAlignment="CENTER">
+                           <font>
+                              <Font name="Arial" size="30.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="conditionsLabel" alignment="CENTER" contentDisplay="CENTER" style="" textAlignment="CENTER">
+                           <font>
+                              <Font name="Arial" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <GridPane hgap="10.0" vgap="5.0" VBox.vgrow="NEVER">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label fx:id="pressureText" alignment="CENTER" contentDisplay="CENTER" style="" text="Pressure" textAlignment="CENTER" GridPane.halignment="CENTER">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="windText" alignment="CENTER" contentDisplay="CENTER" style="" text="Wind" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="visibilityText" alignment="CENTER" contentDisplay="CENTER" style="" text="Visibility" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="feelsLikeText" alignment="CENTER" contentDisplay="CENTER" style="" text="Feels Like" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="humidityText" alignment="CENTER" contentDisplay="CENTER" style="" text="Humidity" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="pressureLabel" alignment="CENTER" contentDisplay="CENTER" style="" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="windLabel" alignment="CENTER" contentDisplay="CENTER" style="" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="visibilityLabel" alignment="CENTER" contentDisplay="CENTER" style="" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="feelsLikeLabel" alignment="CENTER" contentDisplay="CENTER" style="" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="humidityLabel" alignment="CENTER" contentDisplay="CENTER" style="" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <HBox fx:id="forecastContainer" alignment="CENTER" maxWidth="850.0" prefHeight="100.0" prefWidth="200.0" spacing="40.0" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </bottom>
+</BorderPane>
