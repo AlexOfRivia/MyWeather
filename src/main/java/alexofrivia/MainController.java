@@ -88,6 +88,9 @@ public class MainController implements Initializable
     @FXML
     private ImageView appIcon;
 
+    @FXML
+    private GridPane labelPanel;
+
     private Stage mainWindow;
 
     private static final String API_KEY = System.getenv("OPENWEATHER_API_KEY"); //API key
@@ -244,6 +247,8 @@ public class MainController implements Initializable
                     vbox.getChildren().addAll(dayLabel, condImage, lowHighTemp);
                     VBox.setVgrow(condImage, Priority.ALWAYS);
                     vbox.setAlignment(Pos.TOP_CENTER); //Centering VBox elements
+
+                    forecastContainer.setStyle("-fx-background-radius: 10; -fx-background-color: #e3e3e3;");
 
                     //Adding the day to the forecast container
                     forecastContainer.getChildren().add(vbox);
